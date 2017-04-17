@@ -1,0 +1,295 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/spreaker/gulp-aws/"
+
+    >gulp-aws (v0.0.5)</a>
+</h1>
+<h4>AWS S3 plugin for Gulp</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-aws">module gulp-aws</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-aws.s3">
+            function <span class="apidocSignatureSpan">gulp-aws.</span>s3
+            <span class="apidocSignatureSpan">(bucket, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-aws.s3">module gulp-aws.s3</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.gulp-aws.s3.s3">
+            function <span class="apidocSignatureSpan">gulp-aws.</span>s3
+            <span class="apidocSignatureSpan">(bucket, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-aws" id="apidoc.module.gulp-aws">module gulp-aws</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-aws.s3" id="apidoc.element.gulp-aws.s3">
+        function <span class="apidocSignatureSpan">gulp-aws.</span>s3
+        <span class="apidocSignatureSpan">(bucket, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function s3(bucket, options) {
+
+    _.defaults(options, {
+        aws_cli_path: &#x27;/usr/local/bin/aws&#x27;
+    });
+
+    if (!options.aws_region) {
+        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_region` must be specified&#x27;);
+    }
+
+    if (!options.aws_key) {
+        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_key` must be specified&#x27;);
+    }
+
+    if (!options.aws_secret) {
+        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_secret` must be specified&#x27;);
+    }
+
+    return through.obj(function(file, enc, done) {
+
+        // Check for empty file
+        if (file.isNull()) {
+            this.push(file);
+            return done();
+        }
+
+        // Only streams supported
+        if (file.isBuffer()) {
+            this.emit(&#x27;error&#x27;, new PluginError(PLUGIN_NAME, new Error(&#x27;Only streams supported&#x27;), { showStack: true }));
+            return done();
+        }
+
+        var env = {
+            AWS_DEFAULT_REGION:     options.aws_region,
+            AWS_ACCESS_KEY_ID:      options.aws_key,
+            AWS_SECRET_ACCESS_KEY:  options.aws_secret,
+        };
+
+        var filepath;
+        if (options.prefix_path) {
+            filepath = path.join(options.prefix_path, path.basename(file.path));
+        } else {
+            filepath = path.basename(file.path);
+        }
+
+
+        var command = [
+            options.aws_cli_path,
+            &#x27;s3&#x27;,
+            &#x27;cp&#x27;,
+            file.path,
+            &#x27;s3://&#x27; + bucket + &#x27;/&#x27; + filepath
+        ];
+
+        require(&#x27;child_process&#x27;).exec(command.join(&#x27; &#x27;), { env: env }, function(error, stdout, stderr){
+
+            if (error) {
+                this.emit(&#x27;error&#x27;, new PluginError(PLUGIN_NAME, error, { showStack: true }));
+                return done();
+            }
+
+            this.push(file);
+            return done();
+
+        }.bind(this));
+    });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+npm install gulp-aws --save-dev
+```
+
+
+## API
+
+### aws.<span class="apidocCodeKeywordSpan">s3</span>(bucket, options)
+
+Upload files to AWS S3.
+
+- `bucket`: AWS bucket name
+
+
+#### Required options
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.gulp-aws.s3" id="apidoc.module.gulp-aws.s3">module gulp-aws.s3</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.gulp-aws.s3.s3" id="apidoc.element.gulp-aws.s3.s3">
+        function <span class="apidocSignatureSpan">gulp-aws.</span>s3
+        <span class="apidocSignatureSpan">(bucket, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function s3(bucket, options) {
+
+    _.defaults(options, {
+        aws_cli_path: &#x27;/usr/local/bin/aws&#x27;
+    });
+
+    if (!options.aws_region) {
+        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_region` must be specified&#x27;);
+    }
+
+    if (!options.aws_key) {
+        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_key` must be specified&#x27;);
+    }
+
+    if (!options.aws_secret) {
+        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_secret` must be specified&#x27;);
+    }
+
+    return through.obj(function(file, enc, done) {
+
+        // Check for empty file
+        if (file.isNull()) {
+            this.push(file);
+            return done();
+        }
+
+        // Only streams supported
+        if (file.isBuffer()) {
+            this.emit(&#x27;error&#x27;, new PluginError(PLUGIN_NAME, new Error(&#x27;Only streams supported&#x27;), { showStack: true }));
+            return done();
+        }
+
+        var env = {
+            AWS_DEFAULT_REGION:     options.aws_region,
+            AWS_ACCESS_KEY_ID:      options.aws_key,
+            AWS_SECRET_ACCESS_KEY:  options.aws_secret,
+        };
+
+        var filepath;
+        if (options.prefix_path) {
+            filepath = path.join(options.prefix_path, path.basename(file.path));
+        } else {
+            filepath = path.basename(file.path);
+        }
+
+
+        var command = [
+            options.aws_cli_path,
+            &#x27;s3&#x27;,
+            &#x27;cp&#x27;,
+            file.path,
+            &#x27;s3://&#x27; + bucket + &#x27;/&#x27; + filepath
+        ];
+
+        require(&#x27;child_process&#x27;).exec(command.join(&#x27; &#x27;), { env: env }, function(error, stdout, stderr){
+
+            if (error) {
+                this.emit(&#x27;error&#x27;, new PluginError(PLUGIN_NAME, error, { showStack: true }));
+                return done();
+            }
+
+            this.push(file);
+            return done();
+
+        }.bind(this));
+    });
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+npm install gulp-aws --save-dev
+```
+
+
+## API
+
+### aws.<span class="apidocCodeKeywordSpan">s3</span>(bucket, options)
+
+Upload files to AWS S3.
+
+- `bucket`: AWS bucket name
+
+
+#### Required options
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>

@@ -1,4 +1,7 @@
-# api documentation for  [gulp-aws (v0.0.5)](https://github.com/spreaker/gulp-aws/)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-aws.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-aws) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-aws.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-aws)
+# npmdoc-gulp-aws
+
+#### basic api documentation for  [gulp-aws (v0.0.5)](https://github.com/spreaker/gulp-aws/)  [![npm package](https://img.shields.io/npm/v/npmdoc-gulp-aws.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-gulp-aws) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-gulp-aws.svg)](https://travis-ci.org/npmdoc/node-npmdoc-gulp-aws)
+
 #### AWS S3 plugin for Gulp
 
 [![NPM](https://nodei.co/npm/gulp-aws.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/gulp-aws)
@@ -70,7 +73,8 @@
         "url": "git+https://github.com/spreaker/gulp-aws.git"
     },
     "scripts": {},
-    "version": "0.0.5"
+    "version": "0.0.5",
+    "bin": {}
 }
 ```
 

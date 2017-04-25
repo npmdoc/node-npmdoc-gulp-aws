@@ -72,19 +72,6 @@
 
     </ol></li>
 
-    <li class="apidocModuleLi"><a href="#apidoc.module.gulp-aws.s3">module gulp-aws.s3</a><ol>
-
-        <li>
-
-            <a class="apidocElementLiA" href="#apidoc.element.gulp-aws.s3.s3">
-            function <span class="apidocSignatureSpan">gulp-aws.</span>s3
-            <span class="apidocSignatureSpan">(bucket, options)</span>
-            </a>
-
-        </li>
-
-    </ol></li>
-
 </ol></div>
 
 <div class="apidocSectionDiv">
@@ -165,123 +152,7 @@
         }.bind(this));
     });
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-```
-npm install gulp-aws --save-dev
-```
-
-
-## API
-
-### aws.<span class="apidocCodeKeywordSpan">s3</span>(bucket, options)
-
-Upload files to AWS S3.
-
-- `bucket`: AWS bucket name
-
-
-#### Required options
-...</pre></li>
-    </ul>
-
-
-</div>
-
-<div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.gulp-aws.s3" id="apidoc.module.gulp-aws.s3">module gulp-aws.s3</a></h1>
-
-
-    <h2>
-        <a href="#apidoc.element.gulp-aws.s3.s3" id="apidoc.element.gulp-aws.s3.s3">
-        function <span class="apidocSignatureSpan">gulp-aws.</span>s3
-        <span class="apidocSignatureSpan">(bucket, options)</span>
-        </a>
-    </h2>
-    <ul>
-    <li>description and source-code<pre class="apidocCodePre">function s3(bucket, options) {
-
-    _.defaults(options, {
-        aws_cli_path: &#x27;/usr/local/bin/aws&#x27;
-    });
-
-    if (!options.aws_region) {
-        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_region` must be specified&#x27;);
-    }
-
-    if (!options.aws_key) {
-        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_key` must be specified&#x27;);
-    }
-
-    if (!options.aws_secret) {
-        throw new PluginError(PLUGIN_NAME, &#x27;`options.aws_secret` must be specified&#x27;);
-    }
-
-    return through.obj(function(file, enc, done) {
-
-        // Check for empty file
-        if (file.isNull()) {
-            this.push(file);
-            return done();
-        }
-
-        // Only streams supported
-        if (file.isBuffer()) {
-            this.emit(&#x27;error&#x27;, new PluginError(PLUGIN_NAME, new Error(&#x27;Only streams supported&#x27;), { showStack: true }));
-            return done();
-        }
-
-        var env = {
-            AWS_DEFAULT_REGION:     options.aws_region,
-            AWS_ACCESS_KEY_ID:      options.aws_key,
-            AWS_SECRET_ACCESS_KEY:  options.aws_secret,
-        };
-
-        var filepath;
-        if (options.prefix_path) {
-            filepath = path.join(options.prefix_path, path.basename(file.path));
-        } else {
-            filepath = path.basename(file.path);
-        }
-
-
-        var command = [
-            options.aws_cli_path,
-            &#x27;s3&#x27;,
-            &#x27;cp&#x27;,
-            file.path,
-            &#x27;s3://&#x27; + bucket + &#x27;/&#x27; + filepath
-        ];
-
-        require(&#x27;child_process&#x27;).exec(command.join(&#x27; &#x27;), { env: env }, function(error, stdout, stderr){
-
-            if (error) {
-                this.emit(&#x27;error&#x27;, new PluginError(PLUGIN_NAME, error, { showStack: true }));
-                return done();
-            }
-
-            this.push(file);
-            return done();
-
-        }.bind(this));
-    });
-}</pre></li>
-    <li>example usage<pre class="apidocCodePre">...
-```
-npm install gulp-aws --save-dev
-```
-
-
-## API
-
-### aws.<span class="apidocCodeKeywordSpan">s3</span>(bucket, options)
-
-Upload files to AWS S3.
-
-- `bucket`: AWS bucket name
-
-
-#### Required options
-...</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
 
 
